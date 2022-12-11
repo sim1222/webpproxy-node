@@ -11,14 +11,13 @@ const processOptions = {
 
 const encodeOptions = {
     webp: {
-        quality: 6,
+        quality: 6, // 0~100
     },
 }
 
 router.get("/", async (req, res) => {
     try {
-        console.log('webp')
-        const remoteUrlQuery = req.query.url?.toString();
+        const remoteUrlQuery = req.query.url?.toString().replace("/proxy/%2Fmedia%2F", "/proxy/media%2F");
         console.log(remoteUrlQuery)
         if (!remoteUrlQuery) {
             res.status(400).send("Missing url query parameter");
@@ -39,6 +38,7 @@ router.get("/", async (req, res) => {
         // })
         //
         if (!remoteRes.ok) {
+            console.log(`Recieved ${remoteRes.status} ${remoteRes.statusText}`)
             res.status(500).send("Unknown fetch error");
             return;
         }
@@ -57,6 +57,7 @@ router.get("/", async (req, res) => {
         res.header("Content-Type", "image/webp");
         res.send(await image);
     } catch (e) {
+        console.log(`Error: ${e}`)
         res.status(500).send("Unknown exception")
         return
     }
