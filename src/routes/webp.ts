@@ -17,7 +17,7 @@ const encodeOptions = {
 
 router.get("/", async (req, res) => {
     try {
-        const remoteUrlQuery = req.query.url?.toString().replace("/proxy//media/", "/proxy/media/").replace("/proxy//misskey/", "/proxy/misskey/");
+        const remoteUrlQuery = req.query.url?.toString().replace("simkey.net/proxy//", "simkey.net/proxy/");
         console.log(remoteUrlQuery)
         if (!remoteUrlQuery) {
             res.status(400).send("Missing url query parameter");
